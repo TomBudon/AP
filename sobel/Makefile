@@ -9,7 +9,7 @@ VFLAGS=-DBASELINE=1
 all: sobel
 
 sobel: sobel.c
-	$(CC) $(VFLAGS) $(CFLAGS) $(OFLAGS) $< common.c -o $@ -lm
+	$(CC) $(VFLAGS) $(CFLAGS) $(OFLAGS) $< kernel.c common.c -o $@ -lm
 
 clean:
 	rm -Rf *~ sobel

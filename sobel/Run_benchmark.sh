@@ -3,13 +3,13 @@
 
 
 
-versions=("BASELINE" "TEST")
+versions=("BASELINE" "UNROLL4" "UNROLL8")
 
 # compilers=("gcc" "clang-14" "icc" "icx")
 compilers=("gcc")
 
 # oflags=("-O1" "-O2" "-O3")
-oflags=("-O2" "-O3")
+oflags=("-O3")
 
 make clean
 
@@ -27,7 +27,6 @@ for compiler in ${compilers[*]}; do
 
                echo -n "`taskset -c 2 ./sobel in/input.raw out/output.raw | cut -d';' -f5`;" >> data/$compiler.dat
 
-               # echo -n "$compiler; `cat data/$compiler-O1.dat | grep $version | cut -d';' -f11`;" >> data/$version.dat
                make clean
 
           done
