@@ -2,12 +2,14 @@ CC=gcc
 
 CFLAGS=-g3
 
-OFLAGS=-march=native -O1
+OFLAGS=-march=native -O3
+
+VFLAGS=-DBASELINE=1
 
 all: sobel
 
 sobel: sobel.c
-	$(CC) -DBASELINE=1 $(CFLAGS) $(OFLAGS) $< common.c -o $@ -lm
+	$(CC) $(VFLAGS) $(CFLAGS) $(OFLAGS) $< common.c -o $@ -lm
 
 clean:
 	rm -Rf *~ sobel
