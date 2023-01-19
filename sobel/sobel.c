@@ -63,10 +63,15 @@ int main(int argc, char **argv)
   f64 samples[MAX_SAMPLES];
   //
   u64 nb_bytes = 1, frame_count = 0, samples_count = 0;
-  
-  //
-  u8 *cframe = _mm_malloc(size, 32);
-  u8 *oframe = _mm_malloc(size, 32);
+
+  // u8 *cframe = _mm_malloc(size, 32);
+  // u8 *oframe = _mm_malloc(size, 32);
+
+  u8 *cframe = _mm_malloc(size, 256);
+  u8 *oframe = _mm_malloc(size, 256);
+
+  f32 *inframe  = _mm_malloc(sizeof(f32) * H * W, 256);
+  f32 *outframe = _mm_malloc(sizeof(f32) * H * W, 256);
 
   //
   FILE *fpi = fopen(argv[1], "rb"); 
@@ -86,6 +91,10 @@ int main(int argc, char **argv)
       //
       grayscale_weighted(cframe);
 
+      for(size_t i = 0; i < H*W*3 ; i+=3) {
+        inframe[i/3] = cframe[i];
+      }
+
       do
 	{
 	  
@@ -102,9 +111,14 @@ int main(int argc, char **argv)
   #else
     #if UNROLL8
       sobel_unroll8(cframe, oframe, 100.0);
+    #else
+      #if INTRINSIC
+        sobel_unroll8_intrinsic_AVX2(inframe, outframe, 10.0);
+      #endif
     #endif
   #endif
 #endif
+
 	  //Stop
 	  clock_gettime(CLOCK_MONOTONIC_RAW, &t2);
 	  
@@ -122,12 +136,19 @@ int main(int argc, char **argv)
       
       //
       if (samples_count < MAX_SAMPLES)
-	samples[samples_count++] = elapsed_ns;
+	      samples[samples_count++] = elapsed_ns;
       
       //frame number; size in Bytes; elapsed ns; elapsed s; bytes per second
       // fprintf(stdout, "%20llu; %20llu bytes; %15.3lf ns; %15.3lf MiB/s\n", frame_count, nb_bytes << 1, elapsed_ns, mib_per_s);
       
       // Write this frame to the output pipe
+
+      for(size_t i = 0; i < H*W*3 ; i+=3) {
+        oframe[i+0] = outframe[i/3];
+        oframe[i+1] = outframe[i/3];
+        oframe[i+2] = outframe[i/3];
+      }
+
       fwrite(oframe, sizeof(u8), H * W * 3, fpo);
 
       //
@@ -167,6 +188,8 @@ int main(int argc, char **argv)
   //
   _mm_free(cframe);
   _mm_free(oframe);
+  _mm_free(inframe);
+  _mm_free(outframe);
 
   //
   fclose(fpi);
