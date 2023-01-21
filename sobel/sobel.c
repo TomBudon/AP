@@ -58,7 +58,9 @@ int main(int argc, char **argv)
   //
   f64 elapsed_s = 0.0;
   f64 elapsed_ns = 0.0;
+  f64 total_elapsed_ns = 0.0;
   f64 mib_per_s = 0.0;
+  f64 fps = 0.0;
   struct timespec t1, t2;
   f64 samples[MAX_SAMPLES];
   //
@@ -67,11 +69,11 @@ int main(int argc, char **argv)
   // u8 *cframe = _mm_malloc(size, 32);
   // u8 *oframe = _mm_malloc(size, 32);
 
-  u8 *cframe = _mm_malloc(size, 256);
-  u8 *oframe = _mm_malloc(size, 256);
+  u8 *cframe = _mm_malloc(size, 64);
+  u8 *oframe = _mm_malloc(size, 64);
 
-  f32 *inframe  = _mm_malloc(sizeof(f32) * H * W, 256);
-  f32 *outframe = _mm_malloc(sizeof(f32) * H * W, 256);
+  f32 *inframe  = _mm_malloc(sizeof(f32) * H * W, 64);
+  f32 *outframe = _mm_malloc(sizeof(f32) * H * W, 64);
 
   //
   FILE *fpi = fopen(argv[1], "rb"); 
@@ -113,7 +115,15 @@ int main(int argc, char **argv)
       sobel_unroll8(cframe, oframe, 100.0);
     #else
       #if INTRINSIC
-        sobel_unroll8_intrinsic_AVX2(inframe, outframe, 10.0);
+        sobel_unroll8_intrinsic_AVX2(inframe, outframe, 100.0);
+      #else
+        #if NOSQRT
+         sobel_unroll8_intrinsic_AVX2_nosqrt(inframe, outframe, 50.0);
+        #else
+          #if PARALLEL
+            sobel_unroll8_intrinsic_AVX2_nosqrt_openMP(inframe, outframe, 50.0);
+          #endif
+        #endif
       #endif
     #endif
   #endif
@@ -128,6 +138,8 @@ int main(int argc, char **argv)
 	}
       while (elapsed_ns <= 0.0);
       
+      total_elapsed_ns += elapsed_ns;
+
       //Seconds
       elapsed_s = elapsed_ns / 1e9;
       
@@ -175,15 +187,19 @@ int main(int argc, char **argv)
 
   //2 arrays (input & output)
   mib_per_s = ((f64)(size << 1) / (1024.0 * 1024.0)) / elapsed_s;
+
+  //FPS
+  fps = 360 / (total_elapsed_ns / 1e9);
   
   //
-  fprintf(stdout, "%20lu bytes; %15.3lf ns; %15.3lf ns; %15.3lf ns; %15.3lf MiB/s; %15.3lf %%;\n",
+  fprintf(stdout, "%20lu bytes; %15.3lf ns; %15.3lf ns; %15.3lf ns; %15.3lf MiB/s; %15.3lf %%; %15.3lf fps;\n",
 	  (sizeof(u8) * H * W * 3) << 1,
 	  min,
 	  max,
 	  mea,
 	  mib_per_s,
-	  (dev * 100.0 / mea));
+	  (dev * 100.0 / mea),
+    fps);
   
   //
   _mm_free(cframe);

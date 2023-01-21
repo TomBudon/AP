@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-versions=("BASELINE" "UNROLL4" "UNROLL8" "INTRINSIC")
+versions=("BASELINE" "UNROLL4" "UNROLL8" "INTRINSIC" "NOSQRT" "PARALLEL")
 # versions=("INTRINSIC")
 
 
@@ -17,32 +17,41 @@ rm -f data/*
 
 for compiler in ${compilers[*]}; do
 
-               # # BASELINE -O1
-               # echo -n "BASELINE;" >> data/$compiler.dat
-
-               # make CC="$compiler" VFLAGS="-DBASELINE=1" OPFLAGS="-march=native" OFLAGS="-O1"
-               
-               # # taskset -c 2 ./sobel in/input.raw out/output.raw
-               # echo "`taskset -c 2 ./sobel in/input.raw out/output.raw | cut -d';' -f5`;" >> data/$compiler.dat
-
-               # make clean
-
      for version in ${versions[*]}; do
 
-          echo -n "$version;" >> data/$compiler.dat
+          echo -n "$version;" >> data/BW-$compiler.dat
+          echo -n "$version;" >> data/FPS-$compiler.dat
      
           for oflag in ${oflags[*]}; do
+
+               # openmp ne marche pas avec clang
+               if [ "$version" != "PARALLEL" ] || [ "$compiler" != "clang-14" ] 
+               then
      
-               make CC="$compiler" VFLAGS="-D$version=1" OFLAGS="$oflag"
+                    make CC="$compiler" VFLAGS="-D$version=1" OFLAGS="$oflag"
+
+                    # no taskset for parallel
+                    if [ "$version" == "PARALLEL" ]
+                    then
+                         echo "`./sobel in/input.raw out/output.raw`" >> data/$compiler.dat
+                    else
+                         # taskset -c 2 ./sobel in/input.raw out/output.raw
+                         echo "`taskset -c 2 ./sobel in/input.raw out/output.raw`" >> data/$compiler.dat
+                    fi
+
+                    echo -n "`cat data/$compiler.dat | cut -d';' -f5`;" >> data/BW-$compiler.dat
+                    echo -n "`cat data/$compiler.dat | cut -d';' -f7`;" >> data/FPS-$compiler.dat
+
+                    rm -f data/$compiler.dat                
+
+                    make clean
+
+               fi
                
-               # taskset -c 2 ./sobel in/input.raw out/output.raw
-               echo -n "`taskset -c 2 ./sobel in/input.raw out/output.raw | cut -d';' -f5`;" >> data/$compiler.dat
-
-               make clean
-
           done
 
-          echo "" >> data/$compiler.dat
+          echo "" >> data/BW-$compiler.dat
+          echo "" >> data/FPS-$compiler.dat
 
      done
 
