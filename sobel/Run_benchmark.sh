@@ -2,7 +2,7 @@
 
 
 versions=("BASELINE" "UNROLL4" "UNROLL8" "INTRINSIC" "NOSQRT" "PARALLEL")
-# versions=("INTRINSIC")
+# versions=("NOSQRT")
 
 
 compilers=("gcc" "clang-14" "icc" "icx")

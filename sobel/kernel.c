@@ -44,7 +44,7 @@ void sobel_baseline(u8 *cframe, u8 *oframe, f32 threshold)
 
       // mag = gx + gy;
       
-      oframe[INDEX(i, j, W * 3)] =  (mag > threshold) ? 255 : 0;;
+      oframe[INDEX(i, j, W * 3)] =  (mag > threshold) ? 255 : mag;
     }
   }
 }
@@ -62,18 +62,18 @@ void sobel_unroll4(u8 *cframe, u8 *oframe, f32 threshold)
     for (u64 j = 0; j < m; j+=4) {
 
       gx += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 , W * 3)];
       gx += cframe[INDEX(i+0 , j+1 , W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 , W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 , W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 , W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 , W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 , W * 3)];
       gy += cframe[INDEX(i+1 , j+2 , W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 , W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -84,18 +84,18 @@ void sobel_unroll4(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +1, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +1, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +1, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +1, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +1, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +1, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +1, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +1, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +1, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +1, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +1, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +1, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +1, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +1, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +1, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +1, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -106,18 +106,18 @@ void sobel_unroll4(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +2, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +2, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +2, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +2, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +2, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +2, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +2, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +2, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +2, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +2, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +2, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +2, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +2, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +2, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +2, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +2, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -128,18 +128,18 @@ void sobel_unroll4(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +3, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +3, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +3, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +3, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +3, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +3, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +3, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +3, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +3, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +3, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +3, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +3, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +3, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +3, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +3, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +3, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -152,18 +152,18 @@ void sobel_unroll4(u8 *cframe, u8 *oframe, f32 threshold)
     for (u64 j = m; j < ((W * 3) - 3); j++) {
 
       gx += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 , W * 3)];
       gx += cframe[INDEX(i+0 , j+1 , W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 , W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 , W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 , W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 , W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 , W * 3)];
       gy += cframe[INDEX(i+1 , j+2 , W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 , W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -190,18 +190,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
     for (u64 j = 0; j < m; j+=8) {
 
       gx += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 , W * 3)];
       gx += cframe[INDEX(i+0 , j+1 , W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 , W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 , W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 , W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 , W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 , W * 3)];
       gy += cframe[INDEX(i+1 , j+2 , W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 , W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -212,18 +212,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +1, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +1, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +1, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +1, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +1, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +1, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +1, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +1, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +1, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +1, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +1, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +1, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +1, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +1, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +1, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +1, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -234,18 +234,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +2, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +2, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +2, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +2, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +2, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +2, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +2, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +2, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +2, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +2, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +2, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +2, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +2, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +2, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +2, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +2, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -256,18 +256,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +3, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +3, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +3, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +3, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +3, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +3, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +3, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +3, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +3, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +3, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +3, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +3, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +3, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +3, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +3, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +3, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -278,18 +278,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +4, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +4, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +4, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +4, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +4, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +4, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +4, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +4, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +4, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +4, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +4, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +4, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +4, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +4, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +4, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +4, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -300,18 +300,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +5, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +5, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +5, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +5, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +5, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +5, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +5, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +5, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +5, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +5, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +5, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +5, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +5, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +5, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +5, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +5, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -322,18 +322,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +6, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +6, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +6, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +6, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +6, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +6, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +6, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +6, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +6, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +6, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +6, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +6, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +6, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +6, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +6, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +6, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -344,18 +344,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
 
       //
       gx += cframe[INDEX(i+0 , j+0 +7, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 +7, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 +7, W * 3)];
       gx += cframe[INDEX(i+0 , j+1 +7, W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 +7, W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 +7, W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 +7, W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 +7, W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 +7, W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 +7, W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 +7, W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 +7, W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 +7, W * 3)];
       gy += cframe[INDEX(i+1 , j+2 +7, W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 +7, W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 +7, W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       
@@ -368,18 +368,18 @@ void sobel_unroll8(u8 *cframe, u8 *oframe, f32 threshold)
     for (u64 j = m; j < ((W * 3) - 3); j++) {
 
       gx += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+0 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+0 , W * 3)];
       gx += cframe[INDEX(i+0 , j+1 , W * 3)] * -2;
       gx += cframe[INDEX(i+2 , j+1 , W * 3)] *  2;
       gx += cframe[INDEX(i+0 , j+2 , W * 3)] * -1;
-      gx += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gx += cframe[INDEX(i+2 , j+2 , W * 3)];
 
       gy += cframe[INDEX(i+0 , j+0 , W * 3)] * -1;
       gy += cframe[INDEX(i+1 , j+0 , W * 3)] * -2;
       gy += cframe[INDEX(i+2 , j+0 , W * 3)] * -1;
-      gy += cframe[INDEX(i+0 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+0 , j+2 , W * 3)];
       gy += cframe[INDEX(i+1 , j+2 , W * 3)] *  2;
-      gy += cframe[INDEX(i+2 , j+2 , W * 3)] *  1;
+      gy += cframe[INDEX(i+2 , j+2 , W * 3)];
           
       mag = sqrt((gx * gx) + (gy * gy));
       

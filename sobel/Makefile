@@ -4,7 +4,7 @@ CFLAGS=-g3
 
 OFLAGS=-O1
 
-OPFLAGS=-march=native
+OPFLAGS=-march=native -finline-functions -funroll-loops
 
 VFLAGS=-DBASELINE=1
 

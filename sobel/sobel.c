@@ -66,14 +66,11 @@ int main(int argc, char **argv)
   //
   u64 nb_bytes = 1, frame_count = 0, samples_count = 0;
 
-  // u8 *cframe = _mm_malloc(size, 32);
-  // u8 *oframe = _mm_malloc(size, 32);
+  u8 *cframe = _mm_malloc(size, 32);
+  u8 *oframe = _mm_malloc(size, 32);
 
-  u8 *cframe = _mm_malloc(size, 64);
-  u8 *oframe = _mm_malloc(size, 64);
-
-  f32 *inframe  = _mm_malloc(sizeof(f32) * H * W, 64);
-  f32 *outframe = _mm_malloc(sizeof(f32) * H * W, 64);
+  f32 *inframe  = _mm_malloc(sizeof(f32) * H * W, 32);
+  f32 *outframe = _mm_malloc(sizeof(f32) * H * W, 32);
 
   //
   FILE *fpi = fopen(argv[1], "rb"); 
